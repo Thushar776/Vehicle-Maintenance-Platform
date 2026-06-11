@@ -1,6 +1,6 @@
 # AeroKeep | Predictive Vehicle Maintenance Platform
 
-AeroKeep is a production-ready, full-stack Predictive Vehicle Maintenance Platform designed for vehicle owners and fleet managers. The system is designed with a completely decoupled architecture, separating the React.js + Vite frontend dashboard from the Node.js + Express REST APIs, making it ready for future native iOS, Android, and Flutter mobile applications without backend alterations.
+AeroKeep is a production-ready, full-stack Predictive Vehicle Maintenance Platform designed for vehicle owners and fleet managers. The system is designed with a completely decoupled architecture, separating the React.js + Vite frontend dashboard from the Node.js + Express REST APIs, making it ready for future native iOS, Android, and Flutter mobile applications without backend changes.
 
 ---
 
