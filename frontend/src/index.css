@@ -42,6 +42,41 @@
   }
 }
 
+/* Global input style overrides for Stockmo light theme */
+input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+}
+input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus {
+  background-color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+input::placeholder, textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Override default dark-gray buttons to beautiful light gray buttons */
+button.bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+}
+button.bg-slate-800:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Fix text colors inside elements that were dark-themed */
+span.text-slate-300 {
+  color: #64748b !important;
+}
+span.text-slate-400 {
+  color: #64748b !important;
+}
+p.text-slate-400 {
+  color: #64748b !important;
+}
+
+
 @layer base {
   html, body, #root {
     @apply h-full w-full overflow-hidden;
@@ -49,29 +84,17 @@
   }
   
   body {
-    @apply bg-slate-50 text-slate-900 transition-colors duration-300;
-  }
-  
-  body.dark {
-    @apply bg-darkBg-950 text-slate-100;
+    @apply bg-slate-50/50 text-slate-900 transition-colors duration-300;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white border border-slate-200/60 shadow-[0_2px_8px_rgba(15,23,42,0.02)] rounded-2xl p-6 transition-all duration-300;
-  }
-
-  .dark .glass-card {
-    @apply bg-darkBg-900/50 border-darkBg-850/80 shadow-black/20 shadow-lg backdrop-blur-md;
+    @apply bg-white border border-slate-200/50 shadow-[0_2px_8px_rgba(15,23,42,0.01)] rounded-2xl p-6 transition-all duration-300;
   }
 
   .glass-panel {
-    @apply bg-white border border-slate-200/60 shadow-[0_1px_3px_rgba(15,23,42,0.01)] rounded-2xl transition-all duration-300;
-  }
-
-  .dark .glass-panel {
-    @apply bg-darkBg-900/40 border-darkBg-850/30 backdrop-blur-lg;
+    @apply bg-white border border-slate-200/50 shadow-[0_1px_3px_rgba(15,23,42,0.01)] rounded-2xl transition-all duration-300;
   }
 }
 
@@ -89,14 +112,6 @@
   @apply bg-slate-200 rounded-full;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  @apply bg-darkBg-800 rounded-full;
-}
-
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-300;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  @apply bg-darkBg-700;
 }
