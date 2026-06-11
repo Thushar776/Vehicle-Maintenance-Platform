@@ -1,0 +1,20 @@
+const express = require('express');
+const {
+  getUsers,
+  updateUserRole,
+  deleteUser,
+  getPlatformStats,
+} = require('../controllers/adminController');
+const { protect, admin } = require('../middleware/auth');
+
+const router = express.Router();
+
+router.use(protect);
+router.use(admin);
+
+router.get('/users', getUsers);
+router.put('/users/:id/role', updateUserRole);
+router.delete('/users/:id', deleteUser);
+router.get('/stats', getPlatformStats);
+
+module.exports = router;
