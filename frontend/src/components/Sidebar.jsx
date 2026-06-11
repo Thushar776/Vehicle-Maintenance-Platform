@@ -33,8 +33,8 @@ const Sidebar = ({ isOpen, onClose }) => {
     });
   }
 
-  const activeClass = 'flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50/70 text-blue-600 font-semibold border-l-2 border-blue-600 transition-all dark:bg-brand-600 dark:text-white dark:border-0 dark:shadow-md dark:shadow-brand-500/10';
-  const inactiveClass = 'flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-all duration-200 dark:text-slate-400 dark:hover:bg-darkBg-850 dark:hover:text-slate-200';
+  const activeClass = 'flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50/70 text-blue-600 font-semibold border-l-2 border-blue-600 transition-all dark:bg-blue-600/90 dark:text-white dark:border-l-2 dark:border-blue-400';
+  const inactiveClass = 'flex items-center gap-3 px-4 py-3 rounded-xl text-slate-550 hover:bg-slate-50 hover:text-slate-900 transition-all duration-200 dark:text-slate-400 dark:hover:bg-darkBg-850 dark:hover:text-slate-200';
 
   return (
     <>
@@ -55,11 +55,11 @@ const Sidebar = ({ isOpen, onClose }) => {
         {/* Logo and close control */}
         <div className="flex items-center justify-between px-2 mb-8">
           <div className="flex items-center gap-2.5">
-            <div className="rounded-lg bg-blue-600 p-2 text-white dark:bg-brand-600">
+            <div className="rounded-lg bg-blue-600 p-2 text-white dark:bg-blue-600">
               <Gauge className="h-5 w-5" />
             </div>
             <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              Aero<span className="text-blue-600 dark:text-brand-400">Keep</span>
+              Aero<span className="text-blue-600 dark:text-blue-400">Keep</span>
             </span>
           </div>
           <button
@@ -97,7 +97,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               }}
               className="flex items-center gap-3 min-w-0 flex-1 hover:opacity-80"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-darkBg-800 text-blue-600 dark:text-brand-400 font-bold text-sm uppercase">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-darkBg-800 text-blue-600 dark:text-blue-400 font-bold text-sm uppercase">
                 {user?.name?.slice(0, 2) || 'US'}
               </div>
               <div className="truncate pr-2">

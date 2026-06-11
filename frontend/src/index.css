@@ -1,6 +1,7 @@
 @import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-brand-50: #f5f3ff;
@@ -43,39 +44,87 @@
 }
 
 /* Global input style overrides for Stockmo light theme */
-input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+body:not(.dark) input:not([type="checkbox"]):not([type="radio"]), 
+body:not(.dark) select, 
+body:not(.dark) textarea {
   background-color: #f8fafc !important;
   border: 1px solid #e2e8f0 !important;
   color: #0f172a !important;
 }
-input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus {
+body:not(.dark) input:not([type="checkbox"]):not([type="radio"]):focus, 
+body:not(.dark) select:focus, 
+body:not(.dark) textarea:focus {
   background-color: #ffffff !important;
   border-color: #2563eb !important;
 }
-input::placeholder, textarea::placeholder {
+body:not(.dark) input::placeholder, 
+body:not(.dark) textarea::placeholder {
   color: #94a3b8 !important;
 }
 
+/* Global input style overrides for Stockmo dark theme */
+body.dark input:not([type="checkbox"]):not([type="radio"]), 
+body.dark select, 
+body.dark textarea {
+  background-color: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #f8fafc !important;
+}
+body.dark input:not([type="checkbox"]):not([type="radio"]):focus, 
+body.dark select:focus, 
+body.dark textarea:focus {
+  background-color: #0f172a !important;
+  border-color: #3b82f6 !important;
+}
+body.dark input::placeholder, 
+body.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
 /* Override default dark-gray buttons to beautiful light gray buttons */
-button.bg-slate-800 {
+body:not(.dark) button.bg-slate-800 {
   background-color: #f1f5f9 !important;
   color: #475569 !important;
 }
-button.bg-slate-800:hover {
+body:not(.dark) button.bg-slate-800:hover {
   background-color: #e2e8f0 !important;
 }
 
-/* Fix text colors inside elements that were dark-themed */
-span.text-slate-300 {
-  color: #64748b !important;
+/* Dark mode buttons override */
+body.dark button.bg-slate-800 {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #334155 !important;
 }
-span.text-slate-400 {
-  color: #64748b !important;
-}
-p.text-slate-400 {
-  color: #64748b !important;
+body.dark button.bg-slate-800:hover {
+  background-color: #334155 !important;
 }
 
+/* Comprehensive text color overrides for Light theme (body:not(.dark)) */
+body:not(.dark) .text-slate-100 { color: #0f172a !important; }
+body:not(.dark) .text-slate-200 { color: #1e293b !important; }
+body:not(.dark) .text-slate-300 { color: #475569 !important; }
+body:not(.dark) .text-slate-400 { color: #64748b !important; }
+body:not(.dark) .text-slate-450 { color: #64748b !important; }
+body:not(.dark) .text-slate-500 { color: #64748b !important; }
+body:not(.dark) .text-slate-550 { color: #475569 !important; }
+body:not(.dark) .text-slate-600 { color: #334155 !important; }
+body:not(.dark) .text-slate-650 { color: #1e293b !important; }
+body:not(.dark) .text-slate-700 { color: #0f172a !important; }
+body:not(.dark) .text-slate-800 { color: #0f172a !important; }
+
+/* Comprehensive text color overrides for Dark theme (body.dark) */
+body.dark .text-slate-100 { color: #f8fafc !important; }
+body.dark .text-slate-200 { color: #e2e8f0 !important; }
+body.dark .text-slate-300 { color: #cbd5e1 !important; }
+body.dark .text-slate-400 { color: #94a3b8 !important; }
+body.dark .text-slate-450 { color: #94a3b8 !important; }
+body.dark .text-slate-500 { color: #64748b !important; }
+body.dark .text-slate-550 { color: #cbd5e1 !important; }
+body.dark .text-slate-600 { color: #e2e8f0 !important; }
+body.dark .text-slate-650 { color: #f8fafc !important; }
+body.dark .text-slate-750 { color: #f8fafc !important; }
+body.dark .text-slate-800 { color: #f8fafc !important; }
 
 @layer base {
   html, body, #root {
@@ -86,6 +135,11 @@ p.text-slate-400 {
   body {
     @apply bg-slate-50/50 text-slate-900 transition-colors duration-300;
   }
+
+  body.dark {
+    background-color: #090d16 !important;
+    color: #f8fafc !important;
+  }
 }
 
 @layer components {
@@ -93,8 +147,19 @@ p.text-slate-400 {
     @apply bg-white border border-slate-200/50 shadow-[0_2px_8px_rgba(15,23,42,0.01)] rounded-2xl p-6 transition-all duration-300;
   }
 
+  .dark .glass-card {
+    background-color: #0f172a !important;
+    border-color: #1e293b !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3) !important;
+  }
+
   .glass-panel {
     @apply bg-white border border-slate-200/50 shadow-[0_1px_3px_rgba(15,23,42,0.01)] rounded-2xl transition-all duration-300;
+  }
+
+  .dark .glass-panel {
+    background-color: #0f172a !important;
+    border-color: #1e293b !important;
   }
 }
 
@@ -112,6 +177,15 @@ p.text-slate-400 {
   @apply bg-slate-200 rounded-full;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #1e293b !important;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-300;
 }
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #334155 !important;
+}
+

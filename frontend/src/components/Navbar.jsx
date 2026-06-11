@@ -28,10 +28,15 @@ const Navbar = ({ onToggleSidebar, title }) => {
 
   // Load theme and notifications
   useEffect(() => {
-    localStorage.setItem('theme', 'light');
-    setIsDarkMode(false);
-    document.body.classList.remove('dark');
-    document.body.style.backgroundColor = '#f8fafc';
+    const theme = localStorage.getItem('theme') || 'light';
+    setIsDarkMode(theme === 'dark');
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+      document.body.style.backgroundColor = '#090d16';
+    } else {
+      document.body.classList.remove('dark');
+      document.body.style.backgroundColor = '#f8fafc';
+    }
 
     fetchNotifications();
 
@@ -63,6 +68,19 @@ const Navbar = ({ onToggleSidebar, title }) => {
       }
     } catch (err) {
       console.error('Failed to fetch notifications:', err.message);
+    }
+  };
+
+  const toggleTheme = () => {
+    const nextTheme = !isDarkMode ? 'dark' : 'light';
+    setIsDarkMode(!isDarkMode);
+    localStorage.setItem('theme', nextTheme);
+    if (nextTheme === 'dark') {
+      document.body.classList.add('dark');
+      document.body.style.backgroundColor = '#090d16';
+    } else {
+      document.body.classList.remove('dark');
+      document.body.style.backgroundColor = '#f8fafc';
     }
   };
 
@@ -100,47 +118,55 @@ const Navbar = ({ onToggleSidebar, title }) => {
   };
 
   return (
-    <header className="flex h-16 w-full items-center justify-between border-b border-slate-100 bg-white px-6">
+    <header className="flex h-16 w-full items-center justify-between border-b border-slate-100 bg-white px-6 dark:border-darkBg-850 dark:bg-darkBg-900">
       {/* Title & Menu Toggle */}
       <div className="flex items-center gap-4">
         <button
           onClick={onToggleSidebar}
-          className="rounded-xl p-2 text-slate-500 hover:bg-slate-50 lg:hidden transition-colors border border-slate-100"
+          className="rounded-xl p-2 text-slate-500 hover:bg-slate-55 lg:hidden transition-colors border border-slate-100 dark:border-darkBg-800 dark:text-slate-400"
         >
           <Menu className="h-4 w-4" />
         </button>
         
         {/* Breadcrumbs */}
-        <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-400 font-medium tracking-wide uppercase">
-          <Link to="/dashboard" className="hover:text-slate-600">
+        <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-450 dark:text-slate-500 font-medium tracking-wide uppercase">
+          <Link to="/dashboard" className="hover:text-slate-600 dark:hover:text-slate-350">
             <Home className="h-3.5 w-3.5 text-slate-400" />
           </Link>
-          <span className="text-slate-300 font-light">&gt;</span>
+          <span className="text-slate-300 dark:text-slate-700 font-light">&gt;</span>
           {title.includes('>') ? (
             title.split('>').map((part, index, arr) => (
               <React.Fragment key={index}>
-                <span className={index === arr.length - 1 ? "text-slate-800 font-semibold" : "hover:text-slate-600"}>
+                <span className={index === arr.length - 1 ? "text-slate-800 dark:text-slate-200 font-semibold" : "hover:text-slate-600 dark:hover:text-slate-350"}>
                   {part.trim()}
                 </span>
-                {index < arr.length - 1 && <span className="text-slate-300 font-light">&gt;</span>}
+                {index < arr.length - 1 && <span className="text-slate-300 dark:text-slate-700 font-light">&gt;</span>}
               </React.Fragment>
             ))
           ) : (
-            <span className="text-slate-800 font-semibold">{title}</span>
+            <span className="text-slate-800 dark:text-slate-200 font-semibold">{title}</span>
           )}
         </div>
-        <h1 className="text-base font-bold text-slate-800 sm:hidden">
+        <h1 className="text-base font-bold text-slate-800 dark:text-slate-150 sm:hidden">
           {title.includes('>') ? title.split('>').pop() : title}
         </h1>
       </div>
 
       {/* Action Controls */}
       <div className="flex items-center gap-3">
+        {/* Theme Toggler */}
+        <button
+          onClick={toggleTheme}
+          className="rounded-xl p-2.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-450 dark:hover:bg-darkBg-850 dark:hover:text-slate-200 transition-all shadow-sm border border-slate-200 dark:border-darkBg-800"
+        >
+          {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
+
         {/* Notifications Icon and Dropdown */}
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setShowNotifDropdown(!showNotifDropdown)}
-            className="relative rounded-xl p-2.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-all shadow-sm border border-slate-200"
+            className="relative rounded-xl p-2.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-450 dark:hover:bg-darkBg-850 dark:hover:text-slate-200 transition-all shadow-sm border border-slate-200 dark:border-darkBg-800"
           >
             <Bell className="h-4 w-4" />
             {unreadCount > 0 && (
@@ -151,9 +177,9 @@ const Navbar = ({ onToggleSidebar, title }) => {
           </button>
 
           {showNotifDropdown && (
-            <div className="absolute right-0 mt-3 w-80 origin-top-right rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden z-50 transform scale-100 transition-all">
-              <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-                <span className="font-semibold text-sm text-slate-800">Alerts & Notifications</span>
+            <div className="absolute right-0 mt-3 w-80 origin-top-right rounded-2xl border border-slate-205 bg-white shadow-xl overflow-hidden z-50 transform scale-100 transition-all dark:border-darkBg-800 dark:bg-darkBg-900">
+              <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-darkBg-850">
+                <span className="font-semibold text-sm text-slate-800 dark:text-slate-200">Alerts & Notifications</span>
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllAsRead}
@@ -164,34 +190,34 @@ const Navbar = ({ onToggleSidebar, title }) => {
                 )}
               </div>
               
-              <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
+              <div className="max-h-72 overflow-y-auto divide-y divide-slate-100 dark:divide-darkBg-850">
                 {notifications.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-8 text-center">
-                    <Bell className="h-8 w-8 text-slate-300 mb-2" />
-                    <p className="text-xs text-slate-500">All caught up!</p>
+                    <Bell className="h-8 w-8 text-slate-300 dark:text-darkBg-800 mb-2" />
+                    <p className="text-xs text-slate-500 dark:text-slate-400">All caught up!</p>
                   </div>
                 ) : (
                   notifications.slice(0, 5).map((notif) => (
                     <div
                       key={notif._id}
                       onClick={() => markAsRead(notif._id)}
-                      className={`flex gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors ${
-                        !notif.isRead ? 'bg-brand-500/[0.02]' : ''
+                      className={`flex gap-3 p-4 cursor-pointer hover:bg-slate-55 dark:hover:bg-darkBg-850/50 transition-colors ${
+                        !notif.isRead ? 'bg-brand-500/[0.02] dark:bg-brand-500/[0.01]' : ''
                       }`}
                     >
-                      <div className="mt-0.5 rounded-lg bg-slate-50 p-2 h-8 w-8 flex items-center justify-center">
+                      <div className="mt-0.5 rounded-lg bg-slate-50 dark:bg-darkBg-850 p-2 h-8 w-8 flex items-center justify-center">
                         {getNotifIcon(notif.type)}
                       </div>
                       <div className="flex-1 space-y-0.5">
                         <div className="flex items-center justify-between">
-                          <p className={`text-xs font-semibold ${!notif.isRead ? 'text-slate-800' : 'text-slate-400'}`}>
+                          <p className={`text-xs font-semibold ${!notif.isRead ? 'text-slate-800 dark:text-slate-200' : 'text-slate-400 dark:text-slate-550'}`}>
                             {notif.title}
                           </p>
                           {!notif.isRead && (
                             <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
                           )}
                         </div>
-                        <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                        <p className="text-[11px] text-slate-400 dark:text-slate-500 line-clamp-2 leading-relaxed">
                           {notif.message}
                         </p>
                       </div>
@@ -203,7 +229,7 @@ const Navbar = ({ onToggleSidebar, title }) => {
               <Link
                 to="/notifications"
                 onClick={() => setShowNotifDropdown(false)}
-                className="block border-t border-slate-100 bg-slate-50 py-2.5 text-center text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                className="block border-t border-slate-100 bg-slate-50 py-2.5 text-center text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:border-darkBg-850 dark:bg-darkBg-850/30 dark:text-slate-300 dark:hover:bg-darkBg-800"
               >
                 View all notifications
               </Link>
@@ -215,22 +241,22 @@ const Navbar = ({ onToggleSidebar, title }) => {
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1.5 pr-3 text-sm font-medium hover:bg-slate-100 transition-all shadow-sm"
+            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1.5 pr-3 text-sm font-medium hover:bg-slate-100 transition-all shadow-sm dark:border-darkBg-800 dark:bg-darkBg-850/50 dark:hover:bg-darkBg-800"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 font-bold text-white uppercase shadow-sm">
               {user?.name?.slice(0, 2) || 'US'}
             </div>
-            <span className="hidden md:inline-block max-w-[100px] truncate text-slate-700">
+            <span className="hidden md:inline-block max-w-[100px] truncate text-slate-700 dark:text-slate-200">
               {user?.name}
             </span>
-            <ChevronDown className="h-4 w-4 text-slate-400" />
+            <ChevronDown className="h-4 w-4 text-slate-400 dark:text-slate-500" />
           </button>
 
           {showProfileDropdown && (
-            <div className="absolute right-0 mt-3 w-48 origin-top-right rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden z-50">
-              <div className="px-4 py-3 border-b border-slate-100">
-                <p className="text-xs text-slate-400">Signed in as</p>
-                <p className="text-sm font-semibold text-slate-800 truncate">{user?.email}</p>
+            <div className="absolute right-0 mt-3 w-48 origin-top-right rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden z-50 dark:border-darkBg-800 dark:bg-darkBg-900">
+              <div className="px-4 py-3 border-b border-slate-100 dark:border-darkBg-850">
+                <p className="text-xs text-slate-400 dark:text-slate-500">Signed in as</p>
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{user?.email}</p>
               </div>
               <div className="p-1">
                 <button
@@ -238,7 +264,7 @@ const Navbar = ({ onToggleSidebar, title }) => {
                     setShowProfileDropdown(false);
                     navigate('/profile');
                   }}
-                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-darkBg-850 transition-colors"
                 >
                   <User className="h-4 w-4" />
                   My Profile
@@ -248,7 +274,7 @@ const Navbar = ({ onToggleSidebar, title }) => {
                     setShowProfileDropdown(false);
                     logout();
                   }}
-                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-rose-500 hover:bg-rose-50 transition-colors"
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign Out
